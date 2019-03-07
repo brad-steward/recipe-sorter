@@ -1,0 +1,99 @@
+<html>
+  <head>
+    <title>Recipe Sorter</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript">
+      $(document).ready(function(){
+        window.hb = Handlebars;
+        window.formData = {
+          methodValue: -1,
+          mealValue: -1,
+          ethnicityValue: -1,
+          isGlutenFree: false,
+          calorieLimit: null
+        };
+        init();
+        loadData();
+        $('.iframeContainer').on('click', closeForm);
+      });
+    </script>
+    <script id="form-template" type="text/x-handlebars-template">
+      <select id="ethnicity">
+        <option value="-1">---</option>
+        {{#each this.ethnicity}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+      </select>
+      <select id="method">
+        <option value="-1" selected>---</option>
+        {{#each this.method}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+      </select>
+      <select id="meal">
+        <option value="-1" selected>---</option>
+        {{#each this.meal}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+      </select>
+      <label for="glutenFree">Gluten Free?</label>
+      <input id="glutenFree" type="checkbox" />
+      <input id="calories" placeholder="Calorie Limit" />
+      <button id="filter">Apply Filter</button>
+    </script>
+    <script id="item-template" type="text/x-handlebars-template">
+        {{#each this}}
+          <div id="recipe-{{@index}}" class="recipe">
+            <div class="recipe-card">
+            <div class="recipe-text">
+              <a href="{{link}}" class="recipe-link">{{name}}</a>
+              <span>Calories per Serving: {{caloriesPerServing}}</span>
+              {{#if numOfServings}}
+              <span>Number of Servings: {{numOfServings}} - ({{totalMealCalories}} total calories)</span>
+              {{/if}}
+              {{#if glutenFree}}
+              <span>Gluten Free</span>
+              {{/if}}
+              {{#if glutenFreeOptions }}
+              {{#unless glutenFree}}
+              <span>Gluten Free Options: {{glutenFreeOptions}}</span>
+              {{/unless}}
+              {{/if}}
+      </div>
+      </div>
+            {{#if imageLink}}
+            <style>
+              #recipe-{{@index}} .recipe-card { background-image: url({{imageLink}}); }
+              #recipe-{{@index}} .recipe-text { background: rgba(0,0,0,.7); color: white; }
+      </style>
+            {{/if}}
+      </div>
+        {{/each}}
+    </script>
+  </head>
+  <body>
+    <div id="fields"></div>
+    <div id="items" class="recipes">Loading...</div>
+    <div id="FABS" class="FABS">
+      <button id="newRecipe" class="FAB" title="Click to add a new recipe" onclick="openForm()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Toicon-icon-afiado-add.svg/2000px-Toicon-icon-afiado-add.svg.png" >
+      </button>
+      <button id="randomFAB" class="FAB" title="Randomly select a recipe based on what you've filtered!" onclick="random()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Font_Awesome_5_solid_random.svg/2000px-Font_Awesome_5_solid_random.svg.png">
+      </button>
+    </div>
+    <div class="iframeContainer" style="display: none;">
+      <div class="iframeWrapper">
+        <div class="FABS">
+          <button id="iframeClose" class="FAB" onclick="closeForm()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Ic_close_36px.svg/1000px-Ic_close_36px.svg.png" >
+          </button>
+        </div>
+        <iframe width="100%" height="100%" src="https://goo.gl/forms/MwzGlmHifNF9PW9g1"></iframe>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
