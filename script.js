@@ -3,7 +3,6 @@ function splitList(data, property) {
   for (var i in data) {
     if (data[i][property] != null) {
       var subset = data[i][property].split(', ');
-      console.log(subset);
       for(var j in subset) {
         var contains = false;
         for (var k in r) {
@@ -82,7 +81,6 @@ function mapAndFilter(data) {
     }
   }
   if (window.formData.isGlutenFree) {
-    console.log(data);
     data = data.filter(glutenFreeFilter);
   }
   var keys = Object.keys(window.formData);
@@ -131,7 +129,6 @@ function selectFilter(property) {
   }
 }
 function glutenFreeFilter(item, index) {
-  console.log(item);
   return item.glutenFree || item.glutenFree === "Yes" || item.glutenFreeOptions != null;
 }
 function init() {
@@ -147,7 +144,6 @@ function random() {
   window.scrollTo({ top: $(recipeId).offset().top, behavior: 'smooth' });
 }
 function openForm() {
-  console.log('open form');
   $('.iframeContainer').show();
 }
 function closeForm() {
